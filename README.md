@@ -1,2 +1,2 @@
-# MAI1
+# MAI
 ## FFF
