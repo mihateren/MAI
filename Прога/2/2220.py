@@ -1,6 +1,6 @@
 def f(x, y, z):
     a, c = max(x, y, z), min(x, y, z)
-    if (x != a) and (x != c):
+    if (x != a) or (x != c):
         b = x
     elif (y != a) and (y != c):
         b = y
