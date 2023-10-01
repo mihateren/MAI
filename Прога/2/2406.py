@@ -1,28 +1,14 @@
 def f(n):
-    a = int(input())
-    flag = True
-    nod1 = nod2 = -1
+    x1 = int(input())
     for i in range(n - 1):
-        b = int(input())
-        if flag:
-            nod2 = nod1 = evklid(a, b)
-            flag = False
-        else:
-            nod2 = evklid(a, b)
-        if nod2 == nod1:
-            nod1 = nod2
-            a = b
-    print(nod2)
-
-
-def evklid(a, b):
-    nod = -1
-    x, y = a, b
-    while x != y:
-        x, y = max(x, y), min(x, y)
-        x -= y
-    nod = x
-    return nod        
+        x2 = int(input())
+        while x1 != x2:
+            if x1 > x2:
+                x1 -= x2
+            else:
+                x2 -= x1
+        x1 = x2
+    print(x1)
 
 
 def main():
