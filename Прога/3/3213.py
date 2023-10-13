@@ -1,23 +1,22 @@
 def f(n):
-    keys = []
+    menu = []
     for i in range(n):
-        keys.append(input())
+        menu.append(input())
     m = int(input())
-    menu = {}
-    for key in keys:
-        menu[key] = 0
+    arr = []
     for i in range(m):
         k = int(input())
         for j in range(k):
-            s = input()
-            menu[s] += 1
+            arr.append(input())
     ans = []
-    for key, value in menu.items():
-        if value == 0:
-            ans.append(key)
-    ans.sort()
-    for i in range(len(ans)):
-        print(ans[i])
+    for i in range(n):
+        if menu[i] not in arr:
+            ans.append(menu[i])
+    if len(ans) > 0:
+        for x in sorted(ans):
+            print(x)
+    else:
+        print("Готовить нечего")
 
 
 def main():

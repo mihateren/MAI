@@ -1,24 +1,14 @@
 def f(n, m):
-    children = set()
     manka = set()
     ovsyanka = set()
     for i in range(n):
-        child = input()
-        manka.add(child)
-        children.add(child)
+        manka.add(input())
     for i in range(m):
-        child = input()
-        ovsyanka.add(child)
-        children.add(child)
-    res = manka & ovsyanka
-    one = children - res
-    one = sorted(one)
-    if len(one) == 0:
-        print("Таких нет")
-    else:
-        for child in one:
-            print(child)
-
+        ovsyanka.add(input())
+    obe = manka & ovsyanka
+    ans = (manka - obe) | (ovsyanka - obe)
+    print("Таких нет") if len(ans) == 0 else print(len(ans))
+    
 
 def main():
     n = int(input())
