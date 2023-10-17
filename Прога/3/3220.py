@@ -1,14 +1,13 @@
 def f():
-    numbers = set(sorted(list(map(int, input().split(";")))))
-    for a in numbers:
+    numbers = set(map(int, input().split(";")))
+    for a in sorted(numbers):
         boofer = set()
         for b in numbers:
             if a != b:
                 nod = evklid(a, b)
                 if nod == 1:
                     boofer.add(b)
-        boofer = sorted(boofer)
-        boofer = list(map(str, boofer))
+        boofer = list(map(str, sorted(boofer)))
         if len(boofer) != 0:
             print(a, "-", ", ".join(boofer))
 

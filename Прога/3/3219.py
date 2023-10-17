@@ -1,21 +1,22 @@
 def f(n):
     arr = []
     for i in range(n):
-        boofer = set(input().split())
-        for x in boofer:
-            if x[-1] == ",":
-                arr.append(x[:-1:])
-            elif x[-1] != ":":
-                arr.append(x)
-    ans = []
-    for i in range(len(arr)):
-        if arr.count(arr[i]) == 1:
-            ans.append(arr[i])
-    for x in sorted(ans):
+        boofer = list(input().split())
+        for j in range(len(boofer)):
+            if boofer[j][-1] != ":":
+                arr.append(boofer[j])
+    arr2 = []
+    for x in arr:
         if x[-1] == ",":
-            print(x[:-1:])
+            arr2.append(x[:-1:])
         else:
-            print(x)
+            arr2.append(x)
+    print(arr2)
+    ans = []
+    for x in sorted(arr2):
+        ans.append(x)
+    for x in ans:
+        print(x)
 
 
 def main():

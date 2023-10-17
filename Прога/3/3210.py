@@ -41,7 +41,7 @@ def f():
                 letter = alph[s[i].upper()]
                 if s[i].lower() != s[i]:
                     if len(letter) > 1:
-                        ans += letter[0] + letter[1].lower()
+                        ans += letter[0] + letter[1:].lower()
                     else:
                         ans += letter
                 else:

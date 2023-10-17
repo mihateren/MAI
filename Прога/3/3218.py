@@ -1,17 +1,15 @@
 def f(n):
-    arr = []
+    d = dict()
     for i in range(n):
-        arr.append(list(input().split()))
-    ans = 0
-    for i in range(n):
-        for j in range(i + 1, n):
-            xi, yi = arr[i][0], arr[i][1]
-            xj, yj = arr[j][0], arr[j][1]
-            if (len(xi) == len(xj)) and (len(xi) == 2) and (len(yi) == len(yj)) and (len(yi) == 2):
-                if (xi[0] == xj[0]) and (xi[1] != xj[1]) and (yi[0] == yj[0]) and (yi[1] != yj[1]):
-                    ans += 1
-    print(ans)
-
+        n, m = map(str, input().split())
+        n = n[:-1]
+        m = m[:-1]
+        if (n, m) not in d.keys():
+            d[(n, m)] = 1
+        else:
+            d[(n, m)] += 1
+    print(max([i for i in d.values()]))
+    
 
 def main():
     n = int(input())
