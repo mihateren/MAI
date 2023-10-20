@@ -1,0 +1,1 @@
+[len(x) for x in list(sentence.replace("'","").split())]
