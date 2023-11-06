@@ -1,4 +1,4 @@
-from itertools import product, combinations
+from itertools import product, permutations
 
 
 def createDeck():
@@ -18,15 +18,15 @@ def f(s1, s2):
         "червы": "червей"
     }
     nominal, suit = createDeck()
-    boof = list(product(nominal, suit))
-    k = 0
-    for x in combinations(boof, 3):
-        if k == 10:
+    nominal.remove(s2)
+    count = 0
+    for x in permutations(product(nominal, suit), 3):
+        cards = f'{x[0][0]} {x[0][1]}, {x[1][0]} {x[1][1]}, {x[2][0]} {x[2][1]}'
+        if dict[s1] in cards:
+            print(cards)
+            count = count + 1
+        if count == 10:
             break
-        a, b, c = x
-        if ((dict[s1] in a) or (dict[s1] in b) or (dict[s1] in c)) and (s2 not in a) and (s2 not in b) and (s2 not in c):
-            print(f"{a[0]} {a[1]}, {b[0]} {b[1]}, {c[0]} {c[1]}")
-            k += 1
     
 
 def main():

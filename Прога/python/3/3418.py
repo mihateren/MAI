@@ -1,18 +1,11 @@
 from itertools import product
 
 
-def f(s):
-    print("a b c f")
-    for i in product("01", "01", "01"):
-        a, b, c = i
-        f = eval(s, {'a': a, 'b': b, 'c': c})
-        print(a, b, c, int(f))
-        
-
-def main():
-    s = input()
-    f(s)
+def f(a, b, c):
+    return eval(example)
 
 
-if __name__ == '__main__':
-    main()
+example = input()
+print('a b c f')
+for a, b, c in product(range(0, 2), repeat=3):
+    print(a, b, c, int(f(a, b, c)))

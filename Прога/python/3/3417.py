@@ -1,6 +1,15 @@
 from itertools import product, combinations
 
 
+def createDeck():
+    nominal = ['10']
+    for i in range(2, 10):
+        nominal.append(str(i))
+    nominal += ["валет", "дама", "король", "туз"]
+    suit = ["бубен", "пик", "треф", "червей"]
+    return nominal, suit
+
+
 def f(s1, s2, last):
     dict = {
         "буби": "бубен",
@@ -8,24 +17,18 @@ def f(s1, s2, last):
         "трефы": "треф",
         "червы": "червей"
     }
-    nominal = ['10']
-    for i in range(2, 10):
-        nominal.append(str(i))
-    nominal += ["валет", "дама", "король", "туз"]
-    suit = ["бубен", "пик", "треф", "червей"]
-    boof = list(combinations(product(nominal, suit), 3))
-    s = last.split(", ")
-    x, y, z = tuple(s[0].split()), tuple(s[1].split()), tuple(s[2].split())
+    nominal, suit = createDeck()
+    nominal.remove(s2)
     flag = False
-    for i in range(len(boof)):
-        if flag:
-            a, b, c = boof[i]
-            if ((dict[s1] in a) or (dict[s1] in b) or (dict[s1] in c)) and (s2 not in a) and (s2 not in b) and (s2 not in c):
-                print(f"{a[0]} {a[1]}, {b[0]} {b[1]}, {c[0]} {c[1]}")
+    for x in combinations(product(nominal, suit), 3):
+        cards = f'{x[0][0]} {x[0][1]}, {x[1][0]} {x[1][1]}, {x[2][0]} {x[2][1]}'
+        if dict[s1] in cards:
+            if flag is True:
+                print(cards)
                 break
-        if (x == boof[i][0]) and (y == boof[i][1]) and (z == boof[i][2]):
-            flag = True
-
+            if cards == last:
+                flag = True
+    
 
 def main():
     s1 = input()
