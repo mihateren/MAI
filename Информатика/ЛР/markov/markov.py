@@ -1,4 +1,4 @@
-SRC_WORD = "10"
+SRC_WORD = "-10"
 
 PROGRAMM = [
 	"e -> .", # конец программы

@@ -11,7 +11,7 @@ double fi(double x){
     return cos(sqrt(1 - 0.3 * x * x * x));
 }
 
-double myAbs(double x){
+double myAbs(double x) {
     if (x < 0) return -x;
     return x;
 }
@@ -26,8 +26,7 @@ double iter(int a, int b) {
     return xi;
 }
 
-int main(void) 
-{
+int main(void) {
     int a = 0, b = 1;
     printf("%f", iter(a, b));
     return 0;

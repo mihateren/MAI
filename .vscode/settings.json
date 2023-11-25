@@ -1,5 +1,13 @@
 {
     "files.associations": {
-        "lib.c": "cpp"
-    }
+        "lib.c": "cpp",
+        "stdio.h": "c",
+        "stdbool.h": "c",
+        "string": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c"
+    },
+    "C_Cpp.default.compilerPath": "C:\\Users\\user\\gcc\\bin\\gcc.exe"
 }

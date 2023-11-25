@@ -3,13 +3,20 @@
 
 const double a = 0.0;
 const double b = 1.0;
-const int n = 100;
 
 const int fieldSize = 18;
 const int columnsCount = 4;
 
+
+double getEps() { 
+    double eps = 1.0; 
+    while (1.0 + eps > 1.0) eps /= 2.0; 
+    return eps * 2.0; 
+}
+
 float myPow(float x, int n) {
     float res = 1.0;
+    if (n < 0) return 1 / myPow(x, -n);
     for (int i = 0; i < n; i++) res *= x;
     return res;
 }
@@ -25,12 +32,12 @@ double calcF(double x) {
 }
 
 double calcFTaylor(double x, double eps) {
-    double result, lastResult;
-    lastResult = 0;
-    int n = 2;
+    double result = 0, lastResult = 0;
+    int n = 1;
     do {
+        if (n == 0) lastResult = 1;
+        else lastResult += myPow(-1, n - 1) * myPow(x,n) * (float)(n - 1) / myFact(n);
         result = lastResult;
-        lastResult = myPow(-1, n - 1) * ((float)(n - 1) / myFact(n)) * myPow(x, n);
         n += 1;
     } while (fabs(result - lastResult) >= eps);
     return lastResult;
@@ -56,17 +63,18 @@ void typeHeader() {
 }
 
 int main() {
-    double step = (b - a) / n;
+    int steps = 100;
+    double step = (b - a) / steps;
     double x = a;
-    double eps = 0.0001;
-
+    double eps = getEps();
     typeSplitter();
     typeHeader();
     typeSplitter();
-    for (int i = 0; i <= n; i++) {
+    for (int i = 0; i <= steps; i++) {
+        int n = 0;
         double fVal = calcF(x);
         double fTaylorVal = calcFTaylor(x, eps);
-        printf("| %18.3f | %18.15f | %18.15f | %18.3d |\n", x, fVal, fTaylorVal, i);
+        printf("| %18.3f | %18.15f | %18.15f | %18.3d |\n", x, fVal, fTaylorVal, n);
         x += step;
     }
     typeSplitter();
