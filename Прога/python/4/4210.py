@@ -1,23 +1,18 @@
-# def secret_replace(s, **kwargs):
-#     ans = ""
-#     n = [0] * len(kwargs.keys())
-#     for x in s:
-#         if x in list(kwargs.keys()):
-#             xIndex = list(kwargs.keys()).index(x)
-#             ans += kwargs[x][n[xIndex] % len(kwargs[x])]
-#             n[xIndex] += 1
-#         else:
-#             ans += x
-#     return ans
-
-
-def secret_replace(s, **replacements):
-    for key, values in replacements.items():
-        for value in values:
-            s = s.replace(value, key)
-    return s
-
-result = secret_replace("Hello, world!", l=("hi", "y"), o=("123", "z"))
-print(result)
-
+def secret_replace(text, **kwargs):
+    keys = []
+    counters = []
+    for key, value in kwargs.items():
+        keys.append(key)
+        counters.append(0)
+    result = ''
+    for char in text:
+        if char in keys:
+            key_index = keys.index(char)
+            counter = counters[key_index]
+            replacement_value = kwargs[char][counter % len(kwargs[char])]
+            result += replacement_value
+            counters[key_index] += 1
+        else:
+            result += char
+    return result
 
