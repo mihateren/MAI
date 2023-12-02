@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <math.h>
 
-const double a = 0.0;
-const double b = 1.0;
+const float a = 0.0;
+const float b = 1.0;
 
 const int fieldSize = 18;
 const int columnsCount = 4;
 
-
-double getEps() { 
-    double eps = 1.0; 
-    while (1.0 + eps > 1.0) eps /= 2.0; 
-    return eps * 2.0; 
+float getEps() {
+    float epsilon = 1.0;
+    while ((float)(1.0 + (epsilon / 2.0)) != 1.0) {
+        epsilon /= 2.0;
+    }
+    return epsilon;
 }
+
 
 float myPow(float x, int n) {
     float res = 1.0;
@@ -21,27 +23,32 @@ float myPow(float x, int n) {
     return res;
 }
 
-float myFact(int n) {
-    float res = 1;
+int myFact(int n) {
+    int res = 1;
     for (int i = 1; i <= n; i++) res *= i;
     return res;
 }
 
-double calcF(double x) {
+float calcF(float x) {
     return (1 + x) * exp(-x);
 }
 
-double calcFTaylor(double x, double eps) {
-    double result = 0, lastResult = 0;
-    int n = 1;
+
+float calcFTaylor(float x, int* pn, float eps) {
+    int iter = 1;
+    int currN = 2;
+    float ret = 1;
+    float izm = 0;
     do {
-        if (n == 0) lastResult = 1;
-        else lastResult += myPow(-1, n - 1) * myPow(x,n) * (float)(n - 1) / myFact(n);
-        result = lastResult;
-        n += 1;
-    } while (fabs(result - lastResult) >= eps);
-    return lastResult;
+        iter += 1;
+        izm = myPow(-1, (currN - 1)) * ((currN - 1) / (float)myFact(currN)) * myPow(x, currN);
+        ret += izm;
+        currN += 1;
+    } while (izm > eps);
+    *pn = iter;
+    return ret;
 }
+
 
 void typeSplitter() {
     int columnWidth = fieldSize + 3;
@@ -64,16 +71,17 @@ void typeHeader() {
 
 int main() {
     int steps = 100;
-    double step = (b - a) / steps;
-    double x = a;
-    double eps = getEps();
+    float step = (b - a) / steps;
+    float x = a;
     typeSplitter();
     typeHeader();
     typeSplitter();
+    float eps = getEps();
     for (int i = 0; i <= steps; i++) {
         int n = 0;
-        double fVal = calcF(x);
-        double fTaylorVal = calcFTaylor(x, eps);
+        int* pn = &n;
+        float fVal = calcF(x);
+        float fTaylorVal = calcFTaylor(x, pn, eps);
         printf("| %18.3f | %18.15f | %18.15f | %18.3d |\n", x, fVal, fTaylorVal, n);
         x += step;
     }
