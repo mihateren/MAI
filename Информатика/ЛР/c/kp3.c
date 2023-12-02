@@ -7,6 +7,7 @@ const float b = 1.0;
 const int fieldSize = 18;
 const int columnsCount = 4;
 
+
 float getEps() {
     float epsilon = 1.0;
     while ((float)(1.0 + (epsilon / 2.0)) != 1.0) {
@@ -23,11 +24,13 @@ float myPow(float x, int n) {
     return res;
 }
 
+
 int myFact(int n) {
     int res = 1;
     for (int i = 1; i <= n; i++) res *= i;
     return res;
 }
+
 
 float calcF(float x) {
     return (1 + x) * exp(-x);
@@ -65,9 +68,11 @@ void typeSplitter() {
     printf("+\n");
 }
 
+
 void typeHeader() {
     printf("| %18s | %18s | %18s | %18s |\n", "x value", "f(x) - function", "f(x) - Taylor", "Iteration");
 }
+
 
 int main() {
     int steps = 100;
