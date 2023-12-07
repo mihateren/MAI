@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+
 char* readFromFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
