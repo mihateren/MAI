@@ -25,31 +25,25 @@ float myPow(float x, int n) {
 }
 
 
-int myFact(int n) {
-    int res = 1;
-    for (int i = 1; i <= n; i++) res *= i;
-    return res;
-}
-
-
 float calcF(float x) {
     return (1 + x) * exp(-x);
 }
 
 
 float calcFTaylor(float x, int* pn, float eps) {
-    int iter = 1;
-    int currN = 2;
-    float ret = 1;
-    float izm = 0;
+    int iter = 1, currN = 2;
+    float res = 1, izm = 0;
+    int degree = 1, fact = 1;
     do {
+        fact *= currN;
         iter += 1;
-        izm = myPow(-1, (currN - 1)) * ((currN - 1) / (float)myFact(currN)) * myPow(x, currN);
-        ret += izm;
+        izm = (-1 * degree) * ((currN - 1) / (float)fact) * myPow(x, currN);
+        res += izm;
         currN += 1;
-    } while (izm > eps);
-    *pn = iter;
-    return ret;
+        degree *= -1;
+    } while (fabs(izm) > eps);
+    *pn = iter - 1;
+    return res;
 }
 
 
