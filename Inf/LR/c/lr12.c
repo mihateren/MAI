@@ -55,7 +55,6 @@ int countWord(const char* text) {
 }
 
 
-
 int main() {
     char filename[256];
     printf("Введите название файла: ");
