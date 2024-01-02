@@ -9,8 +9,8 @@ int predicate(int num) {
 
 
 int array_contains(int* array, int* limit, int** position) {
-    if (array >= limit) return 0;
-    for (int* i = array; i < limit; i++){
+    if (array > limit) return 0;
+    for (int* i = array; i <= limit; i++){
         if (predicate(*i)){
             *position = i;
             return 1;   
@@ -23,10 +23,10 @@ int array_contains(int* array, int* limit, int** position) {
 int main() {
     int array[4] = {1, 2, 3, 4};
     int size = sizeof(array) / sizeof(int); 
-    int* limit = array + size - 1;
+    int* limit = array + size;
     int* position = NULL;
-    printf("%d", &limit);
-    // printf("%d", array_contains(*array, *limit, ))
+    printf("%d", array_contains(array, limit, &position));
+    printf("\n%d", position);
     return 0;
 }
 
