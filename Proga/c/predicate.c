@@ -1,9 +1,12 @@
 #include <stdlib.h>
+#include <stdio.h>
+
 
 int predicate(int num) {
     if (num % 2 == 0) return 1;
     return 0;
 }
+
 
 int array_contains(int* array, int* limit, int** position) {
     if (array >= limit) return 0;
@@ -18,7 +21,12 @@ int array_contains(int* array, int* limit, int** position) {
 
 
 int main() {
-    int* array = {1, 2, 3, 4};
+    int array[4] = {1, 2, 3, 4};
+    int size = sizeof(array) / sizeof(int); 
+    int* limit = array + size - 1;
+    int* position = NULL;
+    printf("%d", &limit);
+    // printf("%d", array_contains(*array, *limit, ))
     return 0;
 }
 
