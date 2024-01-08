@@ -6,7 +6,7 @@ int main() {
 
     while (num1 > 0) {
         byte = num1 % 256;
-        reverse = 0;  // Сброс значения перед внутренним циклом
+        reverse = 0;
 
         int i = 128;
         while (byte > 0) {
