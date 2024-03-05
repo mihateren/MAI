@@ -75,6 +75,22 @@ int main() {
     for (int i = 0; i < Qlen; i++) {
         pushQueue(myQueue, i+1);
     };
-    cout<<topQueue(myQueue);
+    // копирование только с push pull
+    Queue tempQueue = newQueue(7);
+    Queue qCopy = newQueue(7);
+    while (!isEmptyQueue(myQueue)) {
+        int x = pullQueue(myQueue);
+        pushQueue(tempQueue, x);
+    }
+    while (!isEmptyQueue(tempQueue)) {
+        int y = pullQueue(tempQueue);
+        pushQueue(qCopy, y);
+    }
+    for (int i = 0; i < 7; i++) {
+        cout<<pullQueue(qCopy)<<" ";
+    }
+    // дублирование очереди
+
+
     return 0;
 }
