@@ -64,9 +64,9 @@ void copyQueue(Queue & qd, const Queue & qs) {
     if (qd.length < qs.length) resizeQueue(qd, qs.length - qd.length);
     for (int i = 0; i < qs.depth; i++) {
         qd.data[i] = qs.data[(qs.start + i) % qs.length];
-        qd.start = 0;
-        qd.depth = qs.depth;
     }
+    qd.depth = qs.depth;
+    qd.start = 0;
 }
 
 int main() {
@@ -75,22 +75,32 @@ int main() {
     for (int i = 0; i < Qlen; i++) {
         pushQueue(myQueue, i+1);
     };
-    // копирование только с push pull
-    Queue tempQueue = newQueue(7);
-    Queue qCopy = newQueue(7);
-    while (!isEmptyQueue(myQueue)) {
-        int x = pullQueue(myQueue);
-        pushQueue(tempQueue, x);
+     try {
+        // копирование только с push pull
+        Queue tempQueue = newQueue(7);
+        Queue qCopy = newQueue(7);
+        while (!isEmptyQueue(myQueue)) {
+            int x = pullQueue(myQueue);
+            cout<<x<<endl;
+            pushQueue(qCopy, x);
+        }
+        // дублирование очереди
+        Queue myQueue2 = newQueue(Qlen);
+        while (!isEmptyQueue(qCopy)) {
+            int z = pullQueue(qCopy);
+            pushQueue(myQueue, z);
+            pushQueue(myQueue2, z);
+        }
+    } catch (int e) {
+        if (e == -1) {
+            cout << "Exception: Negative queue length!" << endl;
+        } else if (e == -2) {
+            cout << "Exception: Queue is empty!" << endl;
+        } else if (e == -3) {
+            cout << "Exception: Top of empty queue!" << endl;
+        } else {
+            cout << "Unknown exception code: " << e << endl;
+        }
     }
-    while (!isEmptyQueue(tempQueue)) {
-        int y = pullQueue(tempQueue);
-        pushQueue(qCopy, y);
-    }
-    for (int i = 0; i < 7; i++) {
-        cout<<pullQueue(qCopy)<<" ";
-    }
-    // дублирование очереди
-
-
     return 0;
 }

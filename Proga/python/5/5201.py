@@ -1,0 +1,22 @@
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def move(self, x, y):
+        self.x += x
+        self.y += y
+
+    def length(self, p):
+        return round(((self.x - p.x)**2 + (self.y - p.y)**2)**0.5, 2)
+    
+    
+class PatchedPoint(Point):
+    def __init__(self, *args):
+        if not args:
+            self.x = 0
+            self.y = 0
+        elif len(args) == 1:
+            self.x, self.y = args[0]
+        elif len(args) == 2:
+            self.x, self.y = args
