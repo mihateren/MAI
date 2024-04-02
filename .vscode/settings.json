@@ -8,7 +8,12 @@
     "string_view": "c",
     "initializer_list": "c",
     "utility": "c",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "system_error": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "type_traits": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp.default.compilerPath": "C:\\Users\\user\\gcc\\bin\\gcc.exe",
   "C_Cpp_Runner.cCompilerPath": "gcc",
