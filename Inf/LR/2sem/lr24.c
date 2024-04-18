@@ -59,12 +59,14 @@ void printTree(Node *node, int level) {
     printTree(node->right, level + 1);
 
     for (int i = 0; i < level; i++) {
-        printf("    ");
+        printf("             ");
     }
     if (node->left == NULL && node->right == NULL) {
         printf("%d\n", node->value);
+    } else if (level != 0) {
+        printf("%d%c%d\n", (int)node->left->value,node->value,(int)node->right->value);
     } else {
-        printf("%c\n", node->value);
+        printf("%d/%d%c%d/%d\n", (int)node->left->left->value, (int)node->left->right->value,node->value,(int)node->right->left->value, (int)node->right->right->value);
     }
 
     printTree(node->left, level + 1);
