@@ -1,59 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node
-{
-    char op;
-    int numerator;
-    int denominator;
+typedef struct Node {
+    int value;
     struct Node *left;
     struct Node *right;
 } Node;
 
-Node *createNode(char op, int numerator, int denominator)
-{
+Node *createNode(int value) {
     Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->op = op;
-    newNode->numerator = numerator;
-    newNode->denominator = denominator;
+    newNode->value = value;
     newNode->left = NULL;
     newNode->right = NULL;
     return newNode;
 }
 
-// No changes made here, assuming only "+" operation.
-// For additional operations (-, *, /), you'd include more conditions to handle them.
-void calculateTree(Node *node, int *resultNumerator, int *resultDenominator)
-{
-    if (node->op == '+')
-    {
-        int leftNumerator = 0, leftDenominator = 1, rightNumerator = 0, rightDenominator = 1;
+void calculateTree(Node *node, int *resultNumerator, int *resultDenominator) {
+    if (node->left == NULL && node->right == NULL) {
+        *resultNumerator = node->value;
+        *resultDenominator = 1;
+    } else {
+        int leftNumerator, leftDenominator, rightNumerator, rightDenominator;
         calculateTree(node->left, &leftNumerator, &leftDenominator);
         calculateTree(node->right, &rightNumerator, &rightDenominator);
 
-        // Find a common denominator
-        int commonDenominator = leftDenominator * rightDenominator;
-        int leftMultiplier = commonDenominator / leftDenominator;
-        int rightMultiplier = commonDenominator / rightDenominator;
-
-        // Add the numerators after adjusting for the common denominator
-        *resultNumerator = leftNumerator * leftMultiplier + rightNumerator * rightMultiplier;
-        *resultDenominator = commonDenominator;
-    }
-    else
-    {
-        *resultNumerator = node->numerator;
-        *resultDenominator = node->denominator;
+        switch (node->value) {
+            case '+':
+                *resultNumerator = leftNumerator * rightDenominator + rightNumerator * leftDenominator;
+                *resultDenominator = leftDenominator * rightDenominator;
+                break;
+            case '/':
+                *resultNumerator = leftNumerator * rightDenominator;
+                *resultDenominator = leftDenominator * rightNumerator;
+                break;
+            default:
+                printf("Unsupported operation: %c\n", node->value);
+                exit(1);
+        }
     }
 }
 
-// No changes made to simplifyFraction.
-void simplifyFraction(int *numerator, int *denominator)
-{
+void simplifyFraction(int *numerator, int *denominator) {
     int a = abs(*numerator);
     int b = abs(*denominator);
-    while (b)
-    {
+    while (b) {
         int temp = a % b;
         a = b;
         b = temp;
@@ -62,50 +52,25 @@ void simplifyFraction(int *numerator, int *denominator)
     *denominator /= a;
 }
 
-// Adjusted printTree for better readability.
-void printTree(Node *node, int level)
-{
+void printTree(Node *node, int level) {
     if (node == NULL)
         return;
 
-    // Вывод правого поддерева
-    printTree(node->right, level + 1);
-
-    // Вывод текущего узла
-    for (int i = 0; i < level; i++)
-    {
-        printf("    "); // Количество пробелов для отступа
-    }
-    if (node->op == '/')
-    {
-        printf("%c\n", node->op);
-        for (int i = 0; i < level + 1; i++)
-        {
-            printf("    "); // Отступ для дочерних узлов
-        }
-        printf("%d\n", node->left->numerator);
-        for (int i = 0; i < level + 1; i++)
-        {
-            printf("    "); // Отступ для дочерних узлов
-        }
-        printf("%d\n", node->right->numerator);
-    }
-    else if (node->op != 0)
-    {
-        printf("%c\n", node->op);
-    }
-    else
-    {
-        printf("%d/%d\n", node->numerator, node->denominator);
-    }
-
-    // Вывод левого поддерева
     printTree(node->left, level + 1);
+
+    for (int i = 0; i < level; i++) {
+        printf("    ");
+    }
+    if (node->left == NULL && node->right == NULL) {
+        printf("%d\n", node->value);
+    } else {
+        printf("%c\n", node->value);
+    }
+
+    printTree(node->right, level + 1);
 }
 
-// No changes made to freeTree.
-void freeTree(Node *node)
-{
+void freeTree(Node *node) {
     if (node == NULL)
         return;
     freeTree(node->left);
@@ -113,16 +78,18 @@ void freeTree(Node *node)
     free(node);
 }
 
-int main()
-{
+int main() {
     int a, b, c, d;
     printf("Enter expr in form a/b+c/d: ");
-
     scanf("%d/%d+%d/%d", &a, &b, &c, &d);
 
-    Node *root = createNode('+', 0, 0);
-    root->left = createNode(0, a, b);
-    root->right = createNode(0, c, d);
+    Node *root = createNode('+');
+    root->left = createNode('/');
+    root->right = createNode('/');
+    root->left->left = createNode(a * d);
+    root->left->right = createNode(b * d);
+    root->right->left = createNode(c * b);
+    root->right->right = createNode(b * d);
 
     printf("Tree structure:\n");
     printTree(root, 0);
