@@ -56,7 +56,7 @@ void printTree(Node *node, int level) {
     if (node == NULL)
         return;
 
-    printTree(node->left, level + 1);
+    printTree(node->right, level + 1);
 
     for (int i = 0; i < level; i++) {
         printf("    ");
@@ -67,7 +67,7 @@ void printTree(Node *node, int level) {
         printf("%c\n", node->value);
     }
 
-    printTree(node->right, level + 1);
+    printTree(node->left, level + 1);
 }
 
 void freeTree(Node *node) {
@@ -86,10 +86,10 @@ int main() {
     Node *root = createNode('+');
     root->left = createNode('/');
     root->right = createNode('/');
-    root->left->left = createNode(a * d);
-    root->left->right = createNode(b * d);
-    root->right->left = createNode(c * b);
-    root->right->right = createNode(b * d);
+    root->left->left = createNode(a);
+    root->left->right = createNode(b);
+    root->right->left = createNode(c);
+    root->right->right = createNode(d);
 
     printf("Tree structure:\n");
     printTree(root, 0);
