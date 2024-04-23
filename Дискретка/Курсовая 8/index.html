@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Visualizer</title>
+<style>
+  svg {
+    border: 1px solid #000;
+  }
+  .vertex {
+    cursor: pointer;
+  }
+  .edge {
+    stroke: #000;
+    stroke-width: 2;
+  }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <button onclick="addVertex()">Add Vertex</button>
+</div>
+
+<svg id="graph" width="800" height="600"></svg>
+
+<script>
+let vertices = [];
+let edges = [];
+let nextVertexId = 0;
+
+function addVertex() {
+  let cx = Math.random() * 700 + 50;
+  let cy = Math.random() * 500 + 50;
+  let vertex = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  vertex.setAttribute("cx", cx);
+  vertex.setAttribute("cy", cy);
+  vertex.setAttribute("r", "20");
+  vertex.setAttribute("class", "vertex");
+  vertex.setAttribute("id", `vertex-${nextVertexId}`);
+  vertex.onmousedown = (e) => startDraggingVertex(e, vertex);
+  document.getElementById('graph').appendChild(vertex);
+  vertices.push({ id: nextVertexId, cx: cx, cy: cy });
+  nextVertexId++;
+  updateEdges();
+}
+
+function startDraggingVertex(event, vertex) {
+  event.preventDefault();
+  let startX = event.clientX;
+  let startY = event.clientY;
+  let initialX = parseFloat(vertex.getAttribute("cx"));
+  let initialY = parseFloat(vertex.getAttribute("cy"));
+
+  function moveVertex(dx, dy) {
+    let newX = initialX + dx;
+    let newY = initialY + dy;
+    vertex.setAttribute("cx", newX);
+    vertex.setAttribute("cy", newY);
+    vertices.find(v => v.id === parseInt(vertex.id.split('-')[1])).cx = newX;
+    vertices.find(v => v.id === parseInt(vertex.id.split('-')[1])).cy = newY;
+  }
+
+  function onMouseMove(event) {
+    let dx = event.clientX - startX;
+    let dy = event.clientY - startY;
+    moveVertex(dx, dy);
+    updateEdges();
+  }
+
+  function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
+function updateEdges() {
+  edges = [];
+  let svg = document.getElementById('graph');
+  while (svg.lastChild.tagName !== 'circle') {
+    svg.removeChild(svg.lastChild);
+  }
+  vertices.forEach(vertex => {
+    let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", vertex.cx);
+    circle.setAttribute("cy", vertex.cy);
+    circle.setAttribute("r", "20");
+    circle.setAttribute("class", "vertex");
+    circle.setAttribute("id", `vertex-${vertex.id}`);
+    circle.onmousedown = (e) => startDraggingVertex(e, circle);
+    svg.appendChild(circle);
+  });
+  for (let i = 0; i < vertices.length; i++) {
+    for (let j = i + 1; j < vertices.length; j++) {
+      let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", vertices[i].cx);
+      line.setAttribute("y1", vertices[i].cy);
+      line.setAttribute("x2", vertices[j].cx);
+      line.setAttribute("y2", vertices[j].cy);
+      line.setAttribute("class", "edge");
+      svg.appendChild(line);
+      edges.push({ from: i, to: j });
+    }
+  }
+}
+
+// Initial setup
+addVertex();
+addVertex();
+</script>
+
+</body>
+</html>
